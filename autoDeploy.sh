@@ -6,9 +6,10 @@ git fetch origin
 
 CHANGES=$(git log HEAD..origin/main --oneline)
 if [ $CHANGES ]; then
-    yarn install
+    git pull origin main
     pm2 stop nuxt 
     pm2 delete nuxt 
+    yarn install
     PORT=5555 pm2 start yarn --name "nuxt" -- start
     log_content="Deploy thành công"
 else 
