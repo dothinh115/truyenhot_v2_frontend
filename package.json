@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "start": "node .output/server/index.mjs --port 3000"
+    "start": "node .output/server/index.mjs"
   },
   "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
