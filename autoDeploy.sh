@@ -13,6 +13,8 @@ if [ -n "$CHANGES" ]; then
     wait
     git reset --hard
     wait
+    chmod +x ./autoDeploy.sh
+    wait
     git pull origin main
     yarn install
     wait
