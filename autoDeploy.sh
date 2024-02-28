@@ -28,3 +28,4 @@ else
 fi
 
 echo "$log_time: $log_content" >> "$log_file"
+
