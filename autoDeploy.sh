@@ -10,6 +10,9 @@ if [ -n "$CHANGES" ]; then
     pm2 stop nuxt 
     wait
     pm2 delete nuxt
+    wait
+    git reset --hard
+    wait
     git pull origin main
     yarn install
     wait
