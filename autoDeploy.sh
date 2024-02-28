@@ -9,6 +9,7 @@ CHANGES="$(git log HEAD..origin/main --oneline)"
 if [ -n "$CHANGES" ]; then
     pm2 stop nuxt 
     wait
+    pm2 delete nuxt
     git pull origin main
     yarn install
     wait
