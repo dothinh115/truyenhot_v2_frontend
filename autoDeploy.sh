@@ -5,7 +5,7 @@ log_time=$(date +"%Y-%m-%d %H:%M:%S")
 git fetch origin
 wait
 
-CHANGES=$(git log HEAD..origin/main --oneline)
+CHANGES="$(git log HEAD..origin/main --oneline)"
 if [ $CHANGES ]; then
     pm2 stop nuxt 
     wait
