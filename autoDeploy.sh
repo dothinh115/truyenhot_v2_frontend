@@ -10,7 +10,7 @@ if [ $CHANGES ]; then
     pm2 stop nuxt 
     pm2 delete nuxt 
     yarn install
-    PORT=5555 pm2 start yarn --name "nuxt" -- start
+    PORT=3000 pm2 start yarn --name "nuxt" -- start
     log_content="Deploy thành công"
 else 
     log_content="Deploy thành công"
