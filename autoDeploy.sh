@@ -6,9 +6,10 @@ git fetch origin
 
 CHANGES=$(git log HEAD..origin/main --oneline)
 if [ $CHANGES ]; then
-    pm2 stop nest 
-    pm2 delete nest 
-    PORT=5555 pm2 start yarn --name "nest" -- start
+    yarn install
+    pm2 stop nuxt 
+    pm2 delete nuxt 
+    PORT=5555 pm2 start yarn --name "nuxt" -- start
     log_content="Deploy thành công"
 else 
     log_content="Deploy thành công"
