@@ -15,7 +15,7 @@ if [ -n "$CHANGES" ]; then
     wait
     yarn build
     wait
-    PORT=3000 pm2 start yarn --name "nuxt" -- start
+     pm2 start yarn --name "nuxt" -- start -- --port 3000
     wait
     log_content="Deploy thành công"
 else 
