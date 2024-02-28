@@ -6,7 +6,7 @@ git fetch origin
 wait
 
 CHANGES="$(git log HEAD..origin/main --oneline)"
-if [ $CHANGES ]; then
+if [ -n "$CHANGES" ]; then
     pm2 stop nuxt 
     wait
     git pull origin main
