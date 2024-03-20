@@ -2,7 +2,6 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss"],
-
   tailwindcss: {
     cssPath: "@/assets/scss/global.scss",
     configPath: "tailwind.config.js",
