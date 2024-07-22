@@ -1,0 +1,55 @@
+name: truyenhot_frontend_autodeploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan host ${SSH_HOST} >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Deploy to server
+        env:
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          echo "Deploying..."
+          sshpass -p "${SSH_PASSWORD}" ssh ${SSH_USER}@${SSH_HOST} << "EOF"
+            cd /var/www/truyenhot_FE
+            #pull từ git về 
+            git checkout -- yarn.lock
+            git pull
+
+            #cài đặt các dependencies
+            yarn install
+            yarn build
+
+            #check process
+            if pm2 list | grep -q 'truyenhot-frontend'; then
+              echo "Dừng và xoá process..."
+              pm2 stop truyenhot-frontend
+              pm2 delete truyenhot-frontend
+            else
+              echo "Không có process hoạt động."
+            fi
+
+
+            #chạy pm2
+            pm2 start ./ecosystem.config.js --env production
+
+            echo 'Deploy thành công!'
+          EOF
