@@ -1,8 +1,8 @@
-name: truyenhot_backend_notify
+name: truyenhot_frontend_notify
 
 on:
   workflow_run:
-    workflows: ['truyenhot_backend_deploy']
+    workflows: ["truyenhot_frontend_deploy"]
     types:
       - completed
 
