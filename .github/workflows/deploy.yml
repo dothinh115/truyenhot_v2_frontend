@@ -1,4 +1,4 @@
-name: truyenhot_frontend_autodeploy
+name: truyenhot_frontend_deploy
 
 on:
   push:
@@ -8,48 +8,53 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Get Commit Message
+        id: get_commit_message
+        run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=format:"%s")
+          echo "::set-output name=commit_message::$COMMIT_MESSAGE"
 
       - name: Set up SSH
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan host ${SSH_HOST} >> ~/.ssh/known_hosts
+          ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
 
       - name: Deploy to server
+        id: deploy
         env:
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
         run: |
           echo "Deploying..."
-          sshpass -p "${SSH_PASSWORD}" ssh ${SSH_USER}@${SSH_HOST} << "EOF"
+          sshpass -p "$SSH_PASSWORD" ssh $SSH_USER@$SSH_HOST << EOF
             cd /var/www/truyenhot_FE
-            #pull từ git về 
+            # Pull từ git về 
             git checkout -- yarn.lock
-            git pull
-
-            #cài đặt các dependencies
+            git pull 
+            
+            # Cài đặt các dependencies
             yarn install
             yarn build
 
-            #check process
-            if pm2 list | grep -q 'truyenhot-frontend'; then
+            # Check process
+            if pm2 list | grep -q 'truyenhot-backend'; then
               echo "Dừng và xoá process..."
-              pm2 stop truyenhot-frontend
-              pm2 delete truyenhot-frontend
+              pm2 stop truyenhot-backend
+              pm2 delete truyenhot-backend
             else
               echo "Không có process hoạt động."
             fi
 
-
-            #chạy pm2
-            pm2 start ./ecosystem.config.cjs --env production
+            # Chạy pm2
+            pm2 start ./ecosystem.config.cjs --env production || { echo "Khởi chạy process pm2 thất bại!"; exit 1; }
 
             echo 'Deploy thành công!'
           EOF
