@@ -14,6 +14,7 @@ jobs:
       SSH_HOST: ${{ secrets.SSH_HOST }}
       SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
       SSH_USER: ${{ secrets.SSH_USER }}
+      ECOSYSTEM_PATH: ./ecosystem.config.cjs
     outputs:
       commit_message: ${{ steps.get_commit_message.outputs.commit_message }}
     steps:
@@ -56,7 +57,7 @@ jobs:
             fi
 
             # Chạy pm2
-            pm2 start ./ecosystem.config.cjs --env production
+            pm2 start ${{ env.ECOSYSTEM_PATH }} --env production
 
             echo 'Deploy thành công!'
           EOF
