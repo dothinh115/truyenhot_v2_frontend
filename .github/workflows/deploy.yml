@@ -8,6 +8,14 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      PROCESS_NAME: truyenhot-frontend
+      PROJECT_PATH: /var/www/truyenhot_FE
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+    outputs:
+      commit_message: ${{ steps.get_commit_message.outputs.commit_message }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -19,8 +27,6 @@ jobs:
           echo "::set-output name=commit_message::$COMMIT_MESSAGE"
 
       - name: Set up SSH
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
@@ -28,14 +34,10 @@ jobs:
 
       - name: Deploy to server
         id: deploy
-        env:
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
         run: |
           echo "Deploying..."
           sshpass -p "$SSH_PASSWORD" ssh $SSH_USER@$SSH_HOST << EOF
-            cd /var/www/truyenhot_FE
+            cd ${{ env.PROJECT_PATH }}
             # Pull từ git về 
             git checkout -- yarn.lock
             git pull 
@@ -45,16 +47,16 @@ jobs:
             yarn build
 
             # Check process
-            if pm2 list | grep -q 'truyenhot-backend'; then
+            if pm2 list | grep -q '${{ env.PROCESS_NAME }}'; then
               echo "Dừng và xoá process..."
-              pm2 stop truyenhot-backend
-              pm2 delete truyenhot-backend
+              pm2 stop ${{ env.PROCESS_NAME }}
+              pm2 delete ${{ env.PROCESS_NAME }}
             else
               echo "Không có process hoạt động."
             fi
 
             # Chạy pm2
-            pm2 start ./ecosystem.config.cjs --env production || { echo "Khởi chạy process pm2 thất bại!"; exit 1; }
+            pm2 start ./ecosystem.config.js --env production
 
             echo 'Deploy thành công!'
           EOF
