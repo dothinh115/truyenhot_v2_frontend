@@ -11,14 +11,18 @@
     "start": "node .output/server/index.mjs --port 3000"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^4.4.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/typography": "^0.5.10",
-    "nuxt": "^3.10.3",
+    "marked": "^14.0.0",
+    "nuxt": "^3.13.0",
+    "turndown": "^7.2.0",
     "vue": "^3.4.19",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.11.4",
+    "@types/turndown": "^5.0.5",
     "sass": "^1.71.1"
   }
 }
