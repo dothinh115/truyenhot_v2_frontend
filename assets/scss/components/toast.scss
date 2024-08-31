@@ -1,0 +1,11 @@
+.toast-custom {
+  @apply text-[16px] py-2 px-2 rounded-[8px];
+}
+
+.toast-custom .toast-title {
+  @apply font-bold;
+}
+
+.toast-custom .toast-message {
+  @apply text-[15px] leading-none min-h-0;
+}
