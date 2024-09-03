@@ -7,11 +7,11 @@ export type TUser = {
   isEditedUsername: string;
 };
 export const useAuth = () => {
-  const user = useState<TUser>(USER_INFO);
+  const user = useState<TUser | null>(USER_INFO);
 
   const getUser = async () => {
     const { data } = await useServerFetch<{ data: TUser }>("me");
-    if (data.value?.data) user.value = data.value?.data;
+    user.value = data.value?.data ?? null;
   };
 
   const isLoggedIn = async () => {
