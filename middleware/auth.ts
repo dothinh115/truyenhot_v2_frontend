@@ -4,8 +4,8 @@ export default defineNuxtRouteMiddleware((to, from) => {
   if (!user.value) {
     const host = useRequestHeaders()["host"];
     const proto = useRequestHeaders()["x-forwarded-proto"];
-    const url = `${proto}://${host}${to.fullPath}`;
-    return navigateTo(`${cpPath}/login?next=${url}`, {
+    const url = `${cpPath}/login?next=${proto}://${host}${to.fullPath}`;
+    return navigateTo(url, {
       external: true,
     });
   }
