@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     public: {
       apiUrl: process.env.API_URL,
       cookiePath: process.env.COOKIE_PATH,
+      cpPath: process.env.CP_PATH,
     },
   },
   tailwindcss: {
