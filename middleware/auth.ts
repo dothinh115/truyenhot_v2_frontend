@@ -5,7 +5,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
     const host = useRequestHeaders()["host"];
     const proto = useRequestHeaders()["x-forwarded-proto"];
     const url = `${proto}://${host}${to.fullPath}`;
-    return navigateTo(`http://localhost:3001/login?next=${url}`, {
+    return navigateTo(`${cpPath}/login?next=${url}`, {
       external: true,
     });
   }
