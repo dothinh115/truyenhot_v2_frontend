@@ -5,8 +5,7 @@ export default defineEventHandler(async (event: H3Event) => {
   const { apiUrl } = useRuntimeConfig().public;
   const replacedPath = event.path.replace(/^\/api\//, "");
   const target = joinURL(apiUrl, replacedPath);
-
-  let headers: Record<string, string> = {};
+  const headers: Record<string, string> = {};
   Object.entries(event.node.req.headers).forEach(([key, value]) => {
     if (typeof value === "string") {
       headers[key] = value;

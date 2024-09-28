@@ -31,8 +31,6 @@ export const refreshTokenFunc = async (event: H3Event, apiUrl: string) => {
     clientId,
   };
 
-  console.log(body);
-
   try {
     const response: any = await $fetch("refresh-token", {
       baseURL: apiUrl,
