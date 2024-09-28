@@ -18,10 +18,8 @@ export const isTokenValid = (expTime: string | null) => {
 };
 
 export const refreshTokenFunc = async (event: H3Event, apiUrl: string) => {
-  const target = joinURL(apiUrl, "refresh-token");
   const { cookiePath } = useRuntimeConfig().public;
-  const refreshToken =
-    event.node.req.headers.newToken ?? getCookie(event, REFRESH_TOKEN);
+  const refreshToken = getCookie(event, REFRESH_TOKEN);
   const clientId = getCookie(event, CLIENT_ID);
 
   if (!refreshToken || !clientId) {
@@ -34,7 +32,8 @@ export const refreshTokenFunc = async (event: H3Event, apiUrl: string) => {
   };
 
   try {
-    const response: any = await $fetch(target, {
+    const response: any = await $fetch("refresh-token", {
+      baseURL: apiUrl,
       method: "POST",
       body,
     });
