@@ -11,7 +11,6 @@ export default defineEventHandler(async (event) => {
   const valid = isTokenValid(expTime ?? null);
   if (!valid || !accessToken) {
     accessToken = await refreshTokenFunc(event, apiUrl);
-    console.log("refresh", url);
   }
   event.node.req.headers.authorization = "Bearer " + accessToken;
 });

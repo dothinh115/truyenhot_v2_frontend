@@ -1,6 +1,5 @@
 import { H3Event, setCookie, getCookie } from "h3";
 import { jwtDecode } from "jwt-decode";
-import { joinURL } from "ufo";
 import {
   ACCESS_TOKEN,
   TOKEN_EXPIRED_TIME,
@@ -30,7 +29,6 @@ export const refreshTokenFunc = async (event: H3Event, apiUrl: string) => {
     refreshToken,
     clientId,
   };
-
   try {
     const response: any = await $fetch("refresh-token", {
       baseURL: apiUrl,
@@ -60,7 +58,9 @@ export const refreshTokenFunc = async (event: H3Event, apiUrl: string) => {
       return accessToken;
     }
   } catch (error) {
-    console.log(error);
+    deleteCookie(event, REFRESH_TOKEN);
+    deleteCookie(event, ACCESS_TOKEN);
+    deleteCookie(event, TOKEN_EXPIRED_TIME);
     return false;
   }
 };
