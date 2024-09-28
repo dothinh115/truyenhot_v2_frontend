@@ -24,14 +24,9 @@ const clientUser = ref<TUser | undefined>(undefined);
 
 async function handleClick() {
   startLoading();
-  try {
-    const { data } = await useClientFetch<{ data: TUser }>("me");
-    clientUser.value = data.value?.data;
-  } catch (error) {
-    console.log(error);
-  } finally {
-    finishLoading();
-  }
+  const { data } = await useClientFetch<{ data: TUser }>("me");
+  clientUser.value = data.value?.data;
+  finishLoading();
 }
 
 definePageMeta({
