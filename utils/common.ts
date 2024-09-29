@@ -61,6 +61,7 @@ export const refreshTokenFunc = async (event: H3Event, apiUrl: string) => {
     deleteCookie(event, REFRESH_TOKEN);
     deleteCookie(event, ACCESS_TOKEN);
     deleteCookie(event, TOKEN_EXPIRED_TIME);
+    deleteCookie(event, CLIENT_ID);
     return false;
   }
 };
