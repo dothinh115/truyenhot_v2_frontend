@@ -4,7 +4,6 @@ import {
   ACCESS_TOKEN,
   TOKEN_EXPIRED_TIME,
   REFRESH_TOKEN,
-  CLIENT_ID,
 } from "@/utils/constant";
 
 export const isTokenValid = (expTime: string | null) => {
@@ -19,15 +18,13 @@ export const isTokenValid = (expTime: string | null) => {
 export const refreshTokenFunc = async (event: H3Event, apiUrl: string) => {
   const { cookiePath } = useRuntimeConfig().public;
   const refreshToken = getCookie(event, REFRESH_TOKEN);
-  const clientId = getCookie(event, CLIENT_ID);
 
-  if (!refreshToken || !clientId) {
+  if (!refreshToken) {
     return false;
   }
 
   const body = {
     refreshToken,
-    clientId,
   };
   try {
     const response: any = await $fetch("refresh-token", {
@@ -61,7 +58,6 @@ export const refreshTokenFunc = async (event: H3Event, apiUrl: string) => {
     deleteCookie(event, REFRESH_TOKEN);
     deleteCookie(event, ACCESS_TOKEN);
     deleteCookie(event, TOKEN_EXPIRED_TIME);
-    deleteCookie(event, CLIENT_ID);
     return false;
   }
 };
