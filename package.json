@@ -11,7 +11,6 @@
     "start": "node .output/server/index.mjs --port 3000"
   },
   "dependencies": {
-    "@fingerprintjs/fingerprintjs": "^4.4.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/typography": "^0.5.10",
     "cookie": "^0.6.0",
