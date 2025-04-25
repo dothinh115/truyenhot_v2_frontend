@@ -20,6 +20,7 @@
 <script setup lang="ts">
 const { user } = useAuth();
 const { loading, startLoading, finishLoading } = useLoading();
+
 const clientUser = ref<TUser | undefined>(undefined);
 
 async function handleClick() {
