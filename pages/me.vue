@@ -10,7 +10,7 @@
       </button>
     </div>
     <div>
-      <span>Fetch từ client ok ok : </span>
+      <span>Fetch từ client: </span>
       {{ clientUser?.email }}
       <span class="spinner" v-if="loading"></span>
     </div>
